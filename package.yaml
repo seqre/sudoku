@@ -1,0 +1,41 @@
+name:                sudoku
+version:             0.1.0.0
+github:              "seqre/sudoku"
+license:             MIT
+author:              "Marek `seqre` Grzelak"
+maintainer:          "seqre@disroot.org"
+copyright:           "2021 Marek `seqre` Grzelak"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/seqre/sudoku#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- extra
+
+library:
+  source-dirs: src
+
+executables:
+  sudoku-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - sudoku
+
+tests:
+  sudoku-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - sudoku

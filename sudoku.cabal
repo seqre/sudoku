@@ -1,0 +1,74 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 77092a34c63547d33438917618ddbe7b10c4f4070d387d0a71e2aa464d0a106d
+
+name:           sudoku
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/seqre/sudoku#readme>
+homepage:       https://github.com/seqre/sudoku#readme
+bug-reports:    https://github.com/seqre/sudoku/issues
+author:         Marek `seqre` Grzelak
+maintainer:     seqre@disroot.org
+copyright:      2021 Marek `seqre` Grzelak
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/seqre/sudoku
+
+library
+  exposed-modules:
+      Sudoku.Data.Indices
+      Sudoku.Data.InnerSudoku
+      Sudoku.Data.InputSudoku
+      Sudoku.Solver.Bruteforce
+      Sudoku.Solver.PenAndPaper.PreemptiveSets
+      Sudoku.Solver.PenAndPaper.Prepare
+      Sudoku.Solver.PenAndPaper.Solver
+      Sudoku.Solver.Rules
+      Sudoku.Sudoku
+      Utils.List
+      Utils.Tuple
+  other-modules:
+      Paths_sudoku
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , extra
+  default-language: Haskell2010
+
+executable sudoku-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_sudoku
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , extra
+    , sudoku
+  default-language: Haskell2010
+
+test-suite sudoku-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_sudoku
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , extra
+    , sudoku
+  default-language: Haskell2010

@@ -1,18 +1,10 @@
 module Main where
 
-import Sudoku.Data.InnerSudoku
-import Sudoku.Data.InputSudoku
-import Sudoku.Solver.PenAndPaper.Prepare
-import Sudoku.Solver.Bruteforce
-import Utils.List
-
-test :: String
-test = maybe "" (show . getAllVals) $ (solve . prepare) sudoku
-    where
-        input = "Sudoku:000630010075000000000000000000078400600000030100000000040000708000300500000200000"
-        sudoku = fromInput $ readFromString input
+import Sudoku.Sudoku
 
 main :: IO ()
 main = do
+    putStrLn "Please provide Sudoku to solve in format `Sudoku:0304234...`:"
+    input <- getLine
     putStrLn "Calculating result..."
-    putStrLn $ "Result: " ++ test
+    putStrLn $ "Result: " ++ solve input

@@ -1,5 +1,5 @@
 module Sudoku.Solver.Bruteforce
-( solve
+( solver
 ) where
 
 import Data.Maybe (isNothing, isJust)
@@ -8,13 +8,13 @@ import Debug.Trace (trace)
 import Sudoku.Data.InnerSudoku
 import Sudoku.Solver.Rules
 
-solve :: InnerSudoku -> Maybe InnerSudoku
-solve = flip innerSolve 0
+solver :: InnerSudoku -> Maybe InnerSudoku
+solver = flip innerSolver 0
 
-innerSolve :: InnerSudoku -> Int -> Maybe InnerSudoku
-innerSolve sudoku@(IS cells) n | n == 81   = Just sudoku
-                               | isCV cell = innerSolve sudoku (n+1)
-                               | otherwise = checkList sudoku n $ getFromCP cell
+innerSolver :: InnerSudoku -> Int -> Maybe InnerSudoku
+innerSolver sudoku@(IS cells) n | n == 81   = Just sudoku
+                                | isCV cell = innerSolver sudoku (n+1)
+                                | otherwise = checkList sudoku n $ getFromCP cell
     where
         cell = cells !! n
 
@@ -26,4 +26,4 @@ checkList sudoku n (l:ls) | not isOk        = checkList sudoku n ls
     where
         newSudoku = replaceAt sudoku n (CV l)
         isOk      = checkIndex newSudoku n
-        nextStep  = innerSolve newSudoku (n+1)
+        nextStep  = innerSolver newSudoku (n+1)

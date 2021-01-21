@@ -2,11 +2,9 @@ module Sudoku.Solver.Bruteforce
 ( solver
 ) where
 
-import Data.Maybe (isNothing, isJust)
-import Debug.Trace (trace)
-
 import Sudoku.Data.InnerSudoku
 import Sudoku.Solver.Rules
+import Utils.Maybe
 
 solver :: InnerSudoku -> Maybe InnerSudoku
 solver = flip innerSolver 0

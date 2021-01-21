@@ -3,8 +3,8 @@ module Sudoku.Data.InputSudoku
 , readFromString
 ) where
 
-import Data.Maybe (maybe)
 import Utils.List
+import Utils.Maybe
 
 newtype InputSudoku = Input [Int] deriving (Eq)
 

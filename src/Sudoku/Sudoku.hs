@@ -2,9 +2,6 @@ module Sudoku.Sudoku
 ( solve
 ) where
 
-import Data.List (lookup)
-import Data.Maybe (isJust, fromJust)
-
 import Sudoku.Data.InnerSudoku
 import Sudoku.Data.InputSudoku
 import Sudoku.Solver.Prepare
@@ -12,6 +9,7 @@ import qualified Sudoku.Solver.PenAndPaper.Solver as PAP
 import qualified Sudoku.Solver.Auto as A
 import qualified Sudoku.Solver.Bruteforce as B
 import Utils.List
+import Utils.Maybe
 
 dispatch :: [(String, InnerSudoku -> Maybe InnerSudoku)]
 dispatch = [

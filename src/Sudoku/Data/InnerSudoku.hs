@@ -11,38 +11,37 @@ newtype InnerSudoku = IS [Cell] deriving (Eq)
 
 instance Show Cell where
     show (CV val)  = show val
-    show (CP vals) = "p" -- ++ concatMap showNum vals
+    show (CP vals) = "-"
 
 instance Show InnerSudoku where
     show (IS cells) = showSudoku cells
         where
-            showSudoku :: [Cell] -> String
-            showSudoku []       = ""
+            showSudoku []    = ""
             showSudoku vals  = let (prev, next) = splitAt 9 vals
                                in  (unwords . map show) prev ++ "\n" ++ showSudoku next
                                 
 hash :: InnerSudoku -> String
 hash (IS cells) = show $ fold summed
     where
-        allVals = splitEvery 9 $ map mapFunc cells
-        mapFunc (CV val) = val
+        allVals           = splitEvery 9 $ map mapFunc cells
+        mapFunc (CV val)  = val
         mapFunc (CP vals) = - (sum vals)
-        summed = map fold allVals
-        fold = foldl (\acc el -> acc * 9 + el) 0
+        summed            = map fold allVals
+        fold              = foldl (\acc el -> acc * 9 + el) 0
 
 fromInput :: InputSudoku -> InnerSudoku
 fromInput (Input cells) = IS mapped
     where
-        mapped = map assignCell cells
+        mapped         = map assignCell cells
         assignCell num = if num /= 0 then CV num else CP [1..9]
 
 replaceAt :: InnerSudoku -> Int -> Cell -> InnerSudoku
 replaceAt (IS cells) n newCell = IS cleanedCells
     where
         (prev, _ : next) = splitAt n cells
-        newCells = prev ++ [newCell] ++ next
-        val = getFromCV newCell
-        cleanedCells = removeValFromDependentCP newCells val $ getDependentIndices n
+        newCells         = prev ++ [newCell] ++ next
+        val              = getFromCV newCell
+        cleanedCells     = removeValFromDependentCP newCells val $ getDependentIndices n
 
 removeValFromDependentCP :: [Cell] -> Int -> [Int] -> [Cell]
 removeValFromDependentCP cells _   []     = cells
@@ -51,9 +50,9 @@ removeValFromDependentCP cells val (i:is) = if isCP cell
                                             else prev ++ [cell] ++ nextStep
     where
         (prev, cell : next) = splitAt i cells
-        newInd = map (flip (-) (i + 1)) is
-        newCell = CP (delete val $ getFromCP cell)
-        nextStep = removeValFromDependentCP next val newInd
+        newInd              = map (flip (-) (i + 1)) is
+        newCell             = CP (delete val $ getFromCP cell)
+        nextStep            = removeValFromDependentCP next val newInd
 
 getAllVals :: InnerSudoku -> [Int]
 getAllVals (IS cells) = map func cells

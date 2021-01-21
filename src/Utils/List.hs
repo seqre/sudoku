@@ -19,7 +19,7 @@ nub []     = []
 nub (x:xs) = x : nub (filter (/= x) xs)
 
 sort :: (Ord a) => [a] -> [a]
-sort [] = []
+sort []     = []
 sort (l:ls) = sort smaller ++ [l] ++ sort bigger
     where
         (smaller, bigger) = partition (<= l) ls

@@ -1,7 +1,7 @@
 module Sudoku.Data.Indices
 where
 
-import Data.List (nub, sort)
+import Utils.List
 
 boxFormIndices :: [[Int]]
 boxFormIndices = map boxIndices keyIndices

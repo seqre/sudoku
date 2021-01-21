@@ -2,10 +2,9 @@ module Sudoku.Solver.PenAndPaper.ForcedNumbers
 ( findForced
 ) where
 
-import Data.List (sort, nub, group)
-
 import Sudoku.Data.Indices
 import Sudoku.Data.InnerSudoku
+import Utils.List
 
 findForced :: InnerSudoku -> InnerSudoku
 findForced sudoku = if sudoku == newSudoku then sudoku

@@ -1,8 +1,6 @@
 module Sudoku.Data.InnerSudoku
 where
 
-import Data.List (delete)
-
 import Utils.List
 import Sudoku.Data.Indices
 import Sudoku.Data.InputSudoku

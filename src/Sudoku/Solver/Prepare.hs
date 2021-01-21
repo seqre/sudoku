@@ -2,11 +2,9 @@ module Sudoku.Solver.Prepare
 ( prepare
 ) where
 
-import Data.List (nub, (\\))
-import Debug.Trace (trace)
-
 import Sudoku.Data.Indices
 import Sudoku.Data.InnerSudoku
+import Utils.List
 
 prepare :: InnerSudoku -> InnerSudoku
 prepare = flip innerPrepare 0

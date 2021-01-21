@@ -4,7 +4,7 @@ module Sudoku.Data.InputSudoku
 ) where
 
 import Data.Maybe (maybe)
-import Utils.List (intersperse)
+import Utils.List
 
 newtype InputSudoku = Input [Int] deriving (Eq)
 

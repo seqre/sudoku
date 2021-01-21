@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 77092a34c63547d33438917618ddbe7b10c4f4070d387d0a71e2aa464d0a106d
+-- hash: 99aefb23b294cfadc3ff6ef3da6f57bc9cb85277365876ef93f4cb5b1e010a6e
 
 name:           sudoku
 version:        0.1.0.0
@@ -29,13 +29,16 @@ library
       Sudoku.Data.Indices
       Sudoku.Data.InnerSudoku
       Sudoku.Data.InputSudoku
+      Sudoku.Solver.Auto
       Sudoku.Solver.Bruteforce
+      Sudoku.Solver.PenAndPaper.ForcedNumbers
       Sudoku.Solver.PenAndPaper.PreemptiveSets
-      Sudoku.Solver.PenAndPaper.Prepare
       Sudoku.Solver.PenAndPaper.Solver
+      Sudoku.Solver.Prepare
       Sudoku.Solver.Rules
       Sudoku.Sudoku
       Utils.List
+      Utils.Maybe
       Utils.Tuple
   other-modules:
       Paths_sudoku

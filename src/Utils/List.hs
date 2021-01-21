@@ -7,6 +7,7 @@ splitEvery n list = let (prev, next) = splitAt n list
                     in  prev : splitEvery n next
 
 intersperse :: a -> [a] -> [a]
+intersperse _    []     = []
 intersperse _    [x]    = [x]
 intersperse char (l:ls) = l : char : intersperse char ls
 
@@ -38,7 +39,3 @@ group (l:ls) = (l:same) : group rest
 
 (\\) :: (Eq a) => [a] -> [a] -> [a]
 (\\) = foldl (flip delete)
-
-lookup :: (Eq a) => a -> [(a, b)] -> Maybe b
-lookup key [] = Nothing
-lookup key ((x, y):ls) = if key == x then Just y else lookup key ls

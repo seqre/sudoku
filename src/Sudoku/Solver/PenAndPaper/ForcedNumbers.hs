@@ -13,9 +13,9 @@ findForced sudoku = if sudoku == newSudoku then sudoku
         newSudoku = innerFindForced sudoku allFormIndices
 
 innerFindForced :: InnerSudoku -> [[Int]] -> InnerSudoku
-innerFindForced sudoku            []     = sudoku
-innerFindForced sudoku@(IS cells) (b:bs) = if null singles then innerFindForced sudoku bs
-                                                           else innerFindForced newSudoku bs
+innerFindForced sudoku []     = sudoku
+innerFindForced sudoku (b:bs) = if null singles then innerFindForced sudoku bs
+                                                else innerFindForced newSudoku bs
     where
         singles = getSingles $ getFrequencyAssocs sudoku b
         newSudoku = changeSingles sudoku b singles

@@ -20,10 +20,7 @@ innerPrepare sudoku@(IS cells) n | n == 81 = sudoku
 processCell :: InnerSudoku -> Int -> InnerSudoku
 processCell sudoku@(IS cells) n = IS (prev ++ [CP newVals] ++ next)
     where
-        boxIndices = getBoxIndices n
-        rowIndices = getRowIndices n
-        colIndices = getColIndices n
-        indices = nub (boxIndices ++ rowIndices ++ colIndices)
+        indices = getDependentIndices n
         vals = getVals sudoku indices
         newVals = [1..9] \\ vals
         (prev, _ : next) = splitAt n cells

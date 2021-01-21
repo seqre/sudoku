@@ -18,8 +18,8 @@ instance Show InnerSudoku where
         where
             showSudoku :: [Cell] -> String
             showSudoku []       = ""
-            showSudoku cells  = let (prev, next) = splitAt 9 cells
-                                in  (unwords . map show) prev ++ "\n" ++ showSudoku next
+            showSudoku vals  = let (prev, next) = splitAt 9 vals
+                               in  (unwords . map show) prev ++ "\n" ++ showSudoku next
                                 
 hash :: InnerSudoku -> String
 hash (IS cells) = show $ fold summed
@@ -29,17 +29,6 @@ hash (IS cells) = show $ fold summed
         mapFunc (CP vals) = - (sum vals)
         summed = map fold allVals
         fold = foldl (\acc el -> acc * 9 + el) 0
-
-showNum :: Int -> String
-showNum num = case num of 1 -> "1"
-                          2 -> "2"
-                          3 -> "3"
-                          4 -> "4"
-                          5 -> "5"
-                          6 -> "6"
-                          7 -> "7"
-                          8 -> "8"
-                          9 -> "9"
 
 fromInput :: InputSudoku -> InnerSudoku
 fromInput (Input cells) = IS mapped
@@ -56,7 +45,7 @@ replaceAt (IS cells) n newCell = IS cleanedCells
         cleanedCells = removeValFromDependentCP newCells val $ getDependentIndices n
 
 removeValFromDependentCP :: [Cell] -> Int -> [Int] -> [Cell]
-removeValFromDependentCP cells val []     = cells
+removeValFromDependentCP cells _   []     = cells
 removeValFromDependentCP cells val (i:is) = if isCP cell
                                             then prev ++ [newCell] ++ nextStep
                                             else prev ++ [cell] ++ nextStep

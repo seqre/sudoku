@@ -13,7 +13,7 @@ instance Show InputSudoku where
         where
             showSudoku []       = ""
             showSudoku numbers  = let (prev, next) = splitAt 9 numbers
-                                  in  intersperse ' ' prev ++ "\n" ++ showSudoku next
+                                  in  (unwords . map show) prev ++ "\n" ++ showSudoku next
 
 readFromString :: String -> InputSudoku
 readFromString input@('S':'u':'d':'o':'k':'u':':':nums) = maybe (Input $ getNumbers nums) error errorString
@@ -22,8 +22,8 @@ readFromString input@('S':'u':'d':'o':'k':'u':':':nums) = maybe (Input $ getNumb
         getNumbers = map (\x -> read x :: Int) . words . intersperse ' '
 
 checkInput :: String -> Maybe String
-checkInput ('S':'u':'d':'o':'k':'u':':':nums)   | length nums /= 81 = Just "Sudoku must have 81 numbers"
-                                                | not $ all (`elem` ['0'..'9']) nums = Just "Accepted characters are numbers from 0 to 9"
-                                                | otherwise = Nothing
+checkInput ('S':'u':'d':'o':'k':'u':':':nums) | length nums /= 81 = Just "Sudoku must have 81 numbers"
+                                              | not $ all (`elem` ['0'..'9']) nums = Just "Accepted characters are numbers from 0 to 9"
+                                              | otherwise = Nothing
 checkInput _ = Just "Missing or incorrect preamble"
 -- TODO: Fix this ^

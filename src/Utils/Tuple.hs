@@ -1,6 +1,5 @@
 module Utils.Tuple
-( second
-) where
+where
 
 second :: (b -> b') -> (a, b) -> (a, b')
 second func (a, b) = (a, func b)

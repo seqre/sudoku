@@ -1,6 +1,7 @@
 module Utils.List
 ( splitEvery
 , intersperse
+, intercalate
 ) where
 
 splitEvery :: Int -> [a] -> [[a]]
@@ -11,3 +12,6 @@ splitEvery n list = let (prev, next) = splitAt n list
 intersperse :: a -> [a] -> [a]
 intersperse _    [x]    = [x]
 intersperse char (l:ls) = l : char : intersperse char ls
+
+intercalate :: [a] -> [[a]] -> [a]
+intercalate xs xss = concat (intersperse xs xss)

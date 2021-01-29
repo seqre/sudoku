@@ -1,5 +1,6 @@
 module Sudoku.Sudoku
 ( solve
+, getSolver
 ) where
 
 import Data.List
@@ -13,18 +14,19 @@ import qualified Sudoku.Solver.PenAndPaper.Solver as PAP
 import qualified Sudoku.Solver.Auto as A
 import qualified Sudoku.Solver.Bruteforce as B
 
-dispatch :: [(String, InnerSudoku -> Maybe InnerSudoku)]
+type Solver = InnerSudoku -> Maybe InnerSudoku
+
+dispatch :: [(String, Solver)]
 dispatch = [
     ("auto", A.solver),
     ("bruteforce", B.solver)
     ]
 
-solve :: String -> String -> String
-solve solverString input = if isJust solver
-                           then maybe defaultValue showingFunc $ fromJust solver sudoku
-                           else "Such solver does not exist."
+solve :: Solver -> String -> String
+solve solver input = maybe defaultValue show $ solver sudoku
     where
-        solver       = lookup solverString dispatch
         defaultValue = "No solution"
-        showingFunc  = show . getAllVals
         sudoku       = prepare . fromInput . readFromString $ input
+
+getSolver :: String -> Maybe Solver
+getSolver = flip lookup dispatch

@@ -2,72 +2,49 @@ module Sudoku.Data.InnerSudoku
 where
 
 import Data.List
+import qualified Data.Map as M
 
 import Sudoku.Data.Indices
 import Sudoku.Data.InputSudoku
+import Sudoku.Data.Types
 
 import Utils.List (splitEvery)
 
-data Cell = CV Int | CP [Int] deriving (Eq)
-
-newtype InnerSudoku = IS [Cell] deriving (Eq)
-
-instance Show Cell where
-    show (CV val)  = show val
-    show (CP vals) = "-"
-
-instance Show InnerSudoku where
-    show (IS cells) = showSudoku cells
-        where
-            showSudoku []    = ""
-            showSudoku vals  = let (prev, next) = splitAt 9 vals
-                               in  (unwords . map show) prev ++ "\n" ++ showSudoku next
-                                
-hash :: InnerSudoku -> String
-hash (IS cells) = show $ fold summed
-    where
-        allVals           = splitEvery 9 $ map mapFunc cells
-        mapFunc (CV val)  = val
-        mapFunc (CP vals) = - (sum vals)
-        summed            = map fold allVals
-        fold              = foldl (\acc el -> acc * 9 + el) 0
-
 fromInput :: InputSudoku -> InnerSudoku
-fromInput (Input cells) = IS mapped
+fromInput (IPS cells) = INS $ M.map assignCell cells
     where
-        mapped         = map assignCell cells
         assignCell num = if num /= 0 then CV num else CP [1..9]
 
-replaceAt :: InnerSudoku -> Int -> Cell -> InnerSudoku
-replaceAt (IS cells) n newCell = IS cleanedCells
+replaceAt :: InnerSudoku -> Coord -> Cell -> InnerSudoku
+replaceAt (INS cells) coord newCell = INS cleanedCells
     where
-        (prev, _ : next) = splitAt n cells
-        newCells         = prev ++ [newCell] ++ next
+        newCells         = M.adjust (const newCell) coord cells
         val              = getFromCV newCell
-        cleanedCells     = removeValFromDependentCP newCells val $ getDependentIndices n
+        cleanedCells     = removeValFromDependentCP newCells val $ getDependentIndices coord
 
-removeValFromDependentCP :: [Cell] -> Int -> [Int] -> [Cell]
+removeValFromDependentCP :: InnerVals -> Int -> [Coord] -> InnerVals
 removeValFromDependentCP cells _   []     = cells
-removeValFromDependentCP cells val (i:is) = if isCP cell
-                                            then prev ++ [newCell] ++ nextStep
-                                            else prev ++ [cell] ++ nextStep
+removeValFromDependentCP cells val (c:cs) = if isCP $ cells M.! c
+                                            then removeValFromDependentCP newCells val cs
+                                            else removeValFromDependentCP cells val cs
     where
-        (prev, cell : next) = splitAt i cells
-        newInd              = map (flip (-) (i + 1)) is
-        newCell             = CP (delete val $ getFromCP cell)
-        nextStep            = removeValFromDependentCP next val newInd
+        newCells = M.adjust (flip removeFromCP val) c cells
+
+
+removeFromCP :: Cell -> Int -> Cell
+removeFromCP (CP vals) val = CP $ delete val vals
 
 getAllVals :: InnerSudoku -> [Int]
-getAllVals (IS cells) = map func cells
+getAllVals (INS cells) = M.elems $ M.map func cells
     where
         func (CV val) = val
         func (CP _)   = 0
 
-getVals :: InnerSudoku -> [Int] -> [Int]
-getVals (IS cells) = map getFromCV . filter isCV . map (cells !!)
+getVals :: InnerSudoku -> [Coord] -> [Int]
+getVals (INS cells) = map getFromCV . filter isCV . map (cells M.!)
 
-getPoss :: InnerSudoku -> [Int] -> [[Int]]
-getPoss (IS cells) = map getFromCP . filter isCP . map (cells !!)
+getPoss :: InnerSudoku -> [Coord] -> [[Int]]
+getPoss (INS cells) = map getFromCP . filter isCP . map (cells M.!)
 
 getFromCV :: Cell -> Int
 getFromCV (CV val) = val
@@ -84,4 +61,4 @@ isCP (CP _) = True
 isCP _      = False
 
 isCompleted :: InnerSudoku -> Bool
-isCompleted (IS cells) = (not . any isCP) cells
+isCompleted (INS cells) = (not . any isCP) cells

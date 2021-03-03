@@ -1,31 +1,35 @@
 module Sudoku.Data.Indices
 where
 
+import Sudoku.Data.Types
+
 import Data.List
 
-boxFormIndices :: [[Int]]
+
+boxFormIndices :: [[Coord]]
 boxFormIndices = map boxIndices keyIndices
     where
-        keyIndices   = [x + y | x <- [0, 27, 54], y <- [0, 3, 6]]
-        boxIndices i = [x + y | x <- [i, i + 9, i + 18], y <- [0..2]]
+        keyIndices        = [(x, y) | x <- [0, 3, 6], y <- [0, 3, 6]]
+        boxIndices (a, b) = [(x, y) | x <- [a .. a + 2], y <- [b .. b + 2]]
 
-rowFormIndices :: [[Int]]
-rowFormIndices = map (\x -> [x .. x + 8]) [0, 9 .. 72]
+rowFormIndices :: [[Coord]]
+rowFormIndices = [[(i, y) | y <- [0..8]] | i <- [0..8]]
 
-colFormIndices :: [[Int]]
-colFormIndices = map (\x -> [x, x + 9 .. x + (9 * 8)]) [0..8]
+colFormIndices :: [[Coord]]
+colFormIndices = [[(x, i) | x <- [0..8]] | i <- [0..8]]
 
-allFormIndices :: [[Int]]
+allFormIndices :: [[Coord]]
 allFormIndices = boxFormIndices ++ rowFormIndices ++ colFormIndices
 
-getRowIndices :: Int -> [Int]
-getRowIndices n = let modded = n - mod n 9 in [modded..modded+8]
+getRowIndices :: Coord -> [Coord]
+getRowIndices (a, b) = [(a, y) | y <- [0..8], y /= b]
 
-getColIndices :: Int -> [Int]
-getColIndices n = let modded = mod n 9 in [modded, modded + 9 .. modded + (9 * 8)]
+getColIndices :: Coord -> [Coord]
+getColIndices (a, b) = [(x, b) | x <- [0..8], x /= a]
 
-getBoxIndices :: Int -> [Int]
-getBoxIndices n = head . filter (elem n) $ boxFormIndices
+-- TODO: Make faster
+getBoxIndices :: Coord -> [Coord]
+getBoxIndices coord = head . filter (elem coord) $ boxFormIndices
 
-getDependentIndices :: Int -> [Int]
-getDependentIndices n = sort . nub $ getBoxIndices n ++ getColIndices n ++ getRowIndices n
+getDependentIndices :: Coord -> [Coord]
+getDependentIndices coord = sort . nub $ getBoxIndices coord ++ getColIndices coord ++ getRowIndices coord

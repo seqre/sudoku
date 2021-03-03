@@ -2,9 +2,10 @@ module Sudoku.Solver.Prepare
 ( prepare
 ) where
 
+import Data.List
+
 import Sudoku.Data.Indices
 import Sudoku.Data.InnerSudoku
-import Utils.List
 
 prepare :: InnerSudoku -> InnerSudoku
 prepare = flip innerPrepare 0

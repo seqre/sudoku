@@ -1,9 +1,12 @@
 module Sudoku.Data.InnerSudoku
 where
 
-import Utils.List
+import Data.List
+
 import Sudoku.Data.Indices
 import Sudoku.Data.InputSudoku
+
+import Utils.List (splitEvery)
 
 data Cell = CV Int | CP [Int] deriving (Eq)
 

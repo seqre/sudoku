@@ -2,11 +2,12 @@ module Sudoku.Solver.PenAndPaper.PreemptiveSets
 ( simplify
 ) where
 
+import Data.List
+import Data.Maybe
+import Data.Tuple
+
 import Sudoku.Data.Indices
 import Sudoku.Data.InnerSudoku
-import Utils.List
-import Utils.Tuple
-import Utils.Maybe
 
 data Set = S {values :: [Int], indices :: [Int], dependent :: [Int]}
 

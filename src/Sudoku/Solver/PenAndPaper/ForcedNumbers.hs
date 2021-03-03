@@ -2,10 +2,12 @@ module Sudoku.Solver.PenAndPaper.ForcedNumbers
 ( findForced
 ) where
 
+import Data.List
+import Data.Tuple
+import Data.Tuple.Extra
+
 import Sudoku.Data.Indices
 import Sudoku.Data.InnerSudoku
-import Utils.List
-import Utils.Tuple
 
 findForced :: InnerSudoku -> InnerSudoku
 findForced sudoku = if sudoku == newSudoku then sudoku

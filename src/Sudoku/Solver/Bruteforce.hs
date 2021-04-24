@@ -3,26 +3,28 @@ module Sudoku.Solver.Bruteforce
 ) where
 
 import Data.Maybe
+import qualified Data.Map as M
 
 import Sudoku.Data.InnerSudoku
+import Sudoku.Data.Types
 import Sudoku.Solver.Rules
 
 solver :: InnerSudoku -> Maybe InnerSudoku
-solver = flip innerSolver 0
+solver = flip innerSolver (0,0)
 
-innerSolver :: InnerSudoku -> Int -> Maybe InnerSudoku
-innerSolver sudoku@(IS cells) n | n == 81   = Just sudoku
-                                | isCV cell = innerSolver sudoku (n + 1)
-                                | otherwise = checkList sudoku n $ getFromCP cell
+innerSolver :: InnerSudoku -> Coord -> Maybe InnerSudoku
+innerSolver sudoku@(INS cells) coord | coord == (8,8) = Just sudoku
+                                     | isCV cell      = innerSolver sudoku $ advanceCoord coord
+                                     | otherwise      = checkList sudoku coord $ getFromCP cell
     where
-        cell = cells !! n
+        cell = cells M.! coord
 
-checkList  :: InnerSudoku -> Int -> [Int] -> Maybe InnerSudoku
-checkList _      _ []     = Nothing
-checkList sudoku n (l:ls) | not isOk        = checkList sudoku n ls
-                          | isJust nextStep = nextStep
-                          | otherwise       = checkList sudoku n ls
+checkList  :: InnerSudoku -> Coord -> [Int] -> Maybe InnerSudoku
+checkList _      _     []     = Nothing
+checkList sudoku coord (l:ls) | not isOk        = checkList sudoku coord ls
+                              | isJust nextStep = nextStep
+                              | otherwise       = checkList sudoku coord ls
     where
-        newSudoku = replaceAt sudoku n (CV l)
-        isOk      = checkIndex newSudoku n
-        nextStep  = innerSolver newSudoku (n + 1)
+        newSudoku = replaceAt sudoku coord (CV l)
+        isOk      = checkIndex newSudoku coord
+        nextStep  = innerSolver newSudoku $ advanceCoord coord

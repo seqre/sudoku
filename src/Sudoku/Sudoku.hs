@@ -7,6 +7,7 @@ import Data.Maybe
 
 import Sudoku.Data.InnerSudoku
 import Sudoku.Data.InputSudoku
+import Sudoku.Data.Types
 import Sudoku.Solver.Prepare
 import qualified Sudoku.Solver.PenAndPaper.Solver as PAP
 import qualified Sudoku.Solver.Auto as A

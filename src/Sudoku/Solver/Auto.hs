@@ -3,6 +3,7 @@ module Sudoku.Solver.Auto
 ) where
 
 import Sudoku.Data.InnerSudoku
+import Sudoku.Data.Types
 import Sudoku.Solver.PenAndPaper.ForcedNumbers
 import qualified Sudoku.Solver.Bruteforce as B
 

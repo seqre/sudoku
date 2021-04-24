@@ -3,25 +3,26 @@ module Sudoku.Solver.Prepare
 ) where
 
 import Data.List
+import qualified Data.Map as M
 
 import Sudoku.Data.Indices
 import Sudoku.Data.InnerSudoku
+import Sudoku.Data.Types
 
 prepare :: InnerSudoku -> InnerSudoku
-prepare = flip innerPrepare 0
+prepare = flip innerPrepare (0,0)
 
-innerPrepare :: InnerSudoku -> Int -> InnerSudoku
-innerPrepare sudoku@(IS cells) n | n == 81 = sudoku
-                                 | isCV cell = innerPrepare sudoku (n + 1)
-                                 | otherwise = innerPrepare processed (n + 1)
+innerPrepare :: InnerSudoku -> Coord -> InnerSudoku
+innerPrepare sudoku@(INS cells) coord | coord == (8,8) = sudoku
+                                      | isCV cell = innerPrepare sudoku $ advanceCoord coord
+                                      | otherwise = innerPrepare processed $ advanceCoord coord
     where
-        cell      = cells !! n
-        processed = processCell sudoku n
+        cell      = cells M.! coord
+        processed = processCell sudoku coord
 
-processCell :: InnerSudoku -> Int -> InnerSudoku
-processCell sudoku@(IS cells) n = IS (prev ++ [CP newVals] ++ next)
+processCell :: InnerSudoku -> Coord -> InnerSudoku
+processCell sudoku@(INS cells) coord = replaceAt sudoku coord $ CP newVals
     where
-        indices          = getDependentIndices n
+        indices          = getDependentIndices coord
         vals             = getVals sudoku indices
         newVals          = [1..9] \\ vals
-        (prev, _ : next) = splitAt n cells

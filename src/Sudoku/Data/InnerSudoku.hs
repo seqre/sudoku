@@ -16,7 +16,8 @@ fromInput (IPS cells) = INS $ M.map assignCell cells
         assignCell num = if num /= 0 then CV num else CP [1..9]
 
 replaceAt :: InnerSudoku -> Coord -> Cell -> InnerSudoku
-replaceAt (INS cells) coord newCell = INS cleanedCells
+replaceAt (INS cells) coord newCell = if isCV newCell then INS cleanedCells
+                                                      else INS newCells
     where
         newCells         = M.adjust (const newCell) coord cells
         val              = getFromCV newCell

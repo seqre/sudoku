@@ -41,3 +41,5 @@ showSudoku []       = ""
 showSudoku numbers  = let (prev, next) = splitAt 9 numbers
                       in  (unwords . map show) prev ++ "\n" ++ showSudoku next
 
+advanceCoord :: Coord -> Coord
+advanceCoord (x,y) = if x /= 8 then (x + 1, y) else (0, y + 1)

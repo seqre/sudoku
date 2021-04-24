@@ -4,17 +4,18 @@ module Sudoku.Solver.Rules
 
 import Sudoku.Data.Indices
 import Sudoku.Data.InnerSudoku
+import Sudoku.Data.Types
 
-checkIndex :: InnerSudoku -> Int -> Bool
+checkIndex :: InnerSudoku -> Coord -> Bool
 checkIndex sudoku n = checkRowFromIndex sudoku n && checkColFromIndex sudoku n && checkBoxFromIndex sudoku n
 
-checkRowFromIndex :: InnerSudoku -> Int -> Bool
+checkRowFromIndex :: InnerSudoku -> Coord -> Bool
 checkRowFromIndex sudoku = checkDuplicates . getVals sudoku . getRowIndices
 
-checkColFromIndex :: InnerSudoku -> Int -> Bool
+checkColFromIndex :: InnerSudoku -> Coord -> Bool
 checkColFromIndex sudoku = checkDuplicates . getVals sudoku . getColIndices
 
-checkBoxFromIndex :: InnerSudoku -> Int -> Bool
+checkBoxFromIndex :: InnerSudoku -> Coord -> Bool
 checkBoxFromIndex sudoku = checkDuplicates . getVals sudoku . getBoxIndices
 
 checkDuplicates :: [Int] -> Bool

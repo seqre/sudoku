@@ -24,6 +24,24 @@ Then supply the sudoku in the following format:
 
 Where `numerical representation of sudoku` are concatenated rows of sudoku with numbers 1-9 for given numbers and 0 for blanks. 
 
+### Example
+
+```
+    3  9 | 5       |         
+         | 8       |    7    
+         |    1    | 9     4 
+---------|---------|---------
+ 1       | 4       |       3 
+         |         |         
+       7 |         | 8  6    
+---------|---------|---------
+       6 | 7     8 | 2       
+    1    |    9    |       5 
+         |       1 |       8 
+```
+
+This board will result in such representation:
+`Sudoku:039500000000800070000010904100400003000000000007000860006708200010090005000001008`
 
 ## Solvers
 

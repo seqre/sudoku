@@ -3,15 +3,14 @@ module Main where
 import System.Environment (getArgs)
 import Data.Maybe
 
-import Sudoku.Sudoku (solve, getSolver)
+import Sudoku.Sudoku (solve, getSolver, dispatch)
 
 -- |The 'printHelp' function prints usage of the program
 printHelp :: IO()
 printHelp = do
     putStrLn "Usage: sudoku-exe SOLVER"
     putStrLn "Available solvers:"
-    putStrLn "\t- auto"
-    putStrLn "\t- bruteforce"
+    putStrLn $ ("\t- " ++) . (++ "\n") . fst =<< dispatch
 
 main :: IO ()
 main = do

@@ -2,6 +2,7 @@ module Sudoku.Data.Indices
 where
 
 import Sudoku.Data.Types
+import Data.List
 
 -- |The 'boxFormIndices' function returns list of lists of indices in box form
 boxFormIndices :: [[Coord]]

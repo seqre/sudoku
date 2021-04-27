@@ -12,6 +12,10 @@ printHelp = do
     putStrLn "Available solvers:"
     putStrLn $ ("\t- " ++) . (++ "\n") . fst =<< dispatch
 
+-- |The 'readFromFile' function returns list of entries in provided file
+readFromFile :: String -> IO [String]
+readFromFile = fmap words . readFile
+
 main :: IO ()
 main = do
     args <- getArgs

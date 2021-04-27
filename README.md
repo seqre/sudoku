@@ -1,5 +1,13 @@
 # Sudoku solver
 
+```
+|---------|---------|
+| S  U  D | O  K  U |
+| 1     3 |    5  9 |
+| S  O  L | V  E  R |
+|---------|---------|
+```
+
 Sudoku solver written in Haskell as a semester project for course Functional Programming at the Jagiellonian University.
 
 It is based on the simplified version of [the Pencil-and-Paper algorithm](https://www.ams.org/notices/200904/rtx090400460p.pdf) for Solving Sudoku Puzzles.

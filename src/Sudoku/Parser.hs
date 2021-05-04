@@ -1,5 +1,6 @@
 module Sudoku.Parser
 ( greeter
+, Options (..)
 ) where
 
 import Options.Applicative

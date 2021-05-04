@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 34a3ab0206aac2831fd30b1f6d82df18080824b4d05ea342855054c8e5da80e2
+-- hash: f1d53d7e23119424391f9e1f074f7e697ceffca10a03ec122879d06f525a39a9
 
 name:           sudoku
 version:        0.1.0.0
@@ -30,6 +30,7 @@ library
       Sudoku.Data.InnerSudoku
       Sudoku.Data.InputSudoku
       Sudoku.Data.Types
+      Sudoku.Parser
       Sudoku.Solver.Auto
       Sudoku.Solver.Bruteforce
       Sudoku.Solver.PenAndPaper.ForcedNumbers
@@ -47,6 +48,7 @@ library
       base >=4.7 && <5
     , containers
     , extra
+    , optparse-applicative
   default-language: Haskell2010
 
 executable sudoku-exe
@@ -60,6 +62,7 @@ executable sudoku-exe
       base >=4.7 && <5
     , containers
     , extra
+    , optparse-applicative
     , sudoku
   default-language: Haskell2010
 
@@ -75,5 +78,6 @@ test-suite sudoku-test
       base >=4.7 && <5
     , containers
     , extra
+    , optparse-applicative
     , sudoku
   default-language: Haskell2010

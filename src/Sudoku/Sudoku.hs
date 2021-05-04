@@ -2,6 +2,7 @@ module Sudoku.Sudoku
 ( solve
 , getSolver
 , dispatch
+, Solver
 ) where
 
 import Data.List
